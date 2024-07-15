@@ -18,6 +18,14 @@
 		],
 		// Configure properties specific to VS Code.
 		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-python.black-formatter",
+				"charliermarsh.ruff",
+				"github.vscode-github-actions",
+				"ms-toolsai.jupyter"
+			],
 			// Set *default* container specific settings.json values on container create.
 			"settings": { 
 				"python.defaultInterpreterPath": "/usr/local/bin/python",
