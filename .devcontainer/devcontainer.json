@@ -14,7 +14,8 @@
 			"ms-python.vscode-pylance",
 			"ms-python.black-formatter",
 			"charliermarsh.ruff",
-			"github.vscode-github-actions"
+			"github.vscode-github-actions",
+			"ms-toolsai.jupyter"
 		],
 		// Configure properties specific to VS Code.
 		"vscode": {
