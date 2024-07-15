@@ -1,0 +1,3 @@
+Flask==3.0.3
+openai
+azure-search-documents
