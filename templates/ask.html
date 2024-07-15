@@ -1,0 +1,57 @@
+<!doctype html>
+<head>
+	<title>AI RAG Workshop - Ask</title>
+	<link href="/static/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div id="content">
+        <form action="" method="post" id="ask-form">
+            <input type="text" name="question" id="question" placeholder="Enter your question?" required />
+            <input type="button" value="Send" id="ask-send"/>
+        </form>
+
+        <div id="ask-output" class="output"></div>
+    </div>
+</body>
+
+<script>
+    askSend = document.getElementById("ask-send");
+    askForm = document.getElementById("ask-form");
+    output = document.getElementById("ask-output");
+    askForm.onsubmit = (e) => {
+        e.preventDefault()
+        send_message(e.target)
+    }
+    askSend.onclick = (e) => {
+        e.preventDefault()
+        send_message(e.target.form)
+    }
+    function send_message(f) {
+        msg = f[0].value
+        const data = {
+            message: msg
+        };
+        f[0].value = ""
+
+        output.innerHTML = "<div class=message>Waiting...</div>"
+
+        // Send the POST request using fetch
+        fetch("/contextless-message", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Success:", data)
+            output.innerHTML = "<div class=message>" + data.resp + "</div>"
+        })
+        .catch((error) => {
+            console.error("Error:", error)
+            output.value = "<div class=message>Sorry, there was an error. Please refresh and try again.</div>"
+        });
+    }
+
+</script>

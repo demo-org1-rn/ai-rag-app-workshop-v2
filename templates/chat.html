@@ -1,0 +1,62 @@
+<!doctype html>
+<head>
+	<title>AI RAG Workshop - Chat</title>
+	<link href="/static/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div id="content">
+        <div id="chat-output" class="output"></div>
+
+        <div class="entry-form">
+            <form action="" method="post" id="chat-form">
+                <input type="text" name="question" id="question" placeholder="Enter your question?" required />
+                <input type="button" value="Send" id="chat-send"/>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    chatSend = document.getElementById("chat-send");
+    output = document.getElementById("chat-output");
+    chatForm = document.getElementById("chat-form");
+    current_context = [];
+    chatForm.onsubmit = (e) => {
+        e.preventDefault()
+        send_message(e.target)
+    }
+    chatSend.onclick = (e) => {
+        e.preventDefault()
+        send_message(e.target.form)
+    }
+
+    function send_message(f) {
+        msg = f[0].value
+        const data = {
+            message: msg,
+            context: current_context
+        };
+        f[0].value = ""
+
+        output.innerHTML += "<div class='message question'>" + msg + "</div>"
+
+        // Send the POST request using fetch
+        fetch("/context-message", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Success:", data)
+            output.innerHTML += "<div class='message response'>" + data.resp + "</div>"
+        })
+        .catch((error) => {
+            console.error("Error:", error)
+            output.innerHTML += "<div class='message response error'>Sorry, there was an error. Please refresh and try again.</div>"
+        });
+    }
+
+</script>
